@@ -1,0 +1,16 @@
+.signupBase {
+    display: flex;
+    flex: 1;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.signupDiv {
+    width: 500px;
+    height: 700px;
+    background-color: var(--primary-color);
+    border-radius: 30px;
+    box-shadow: 10px 10px 10px var(--secondary-color);
+    padding: 20px;
+}
