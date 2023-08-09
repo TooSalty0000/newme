@@ -1,6 +1,12 @@
-# Getting Started with Create React App
+# New Me
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+# .env file
+Environment variables contain values for api keys and project IDs for firebase connection. 
+
+
+# React Script Command Lines
 
 ## Available Scripts
 
