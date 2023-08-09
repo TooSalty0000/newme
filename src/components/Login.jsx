@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import styles from "./css-modules/Login.module.css";
 import { UserAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -66,7 +66,7 @@ export default function Login() {
         </form>
         <div className="flex-[0.2]">
           <p> Do not have an account?</p>
-          <a href="#">Sign up</a>
+          <Link to="/Signup">Sign up</Link>
         </div>
       </div>
     </div>

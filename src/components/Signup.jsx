@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import styles from "./css-modules/Signup.module.css";
 import { UserAuth } from "../context/AuthContext.js";
+import { Firestore } from "../context/StoreContext.js";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -10,7 +12,9 @@ export default function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
-  const { createUser } = UserAuth();
+  const { createUser, logout, user } = UserAuth();
+  const { createUserField } = Firestore();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,13 +25,26 @@ export default function Signup() {
     } else {
       try {
         console.log("creating user");
-        await createUser(email, password);
+        let res = await createUser(email, password)
+        await createUserField(res.user, username);
+        navigate("/Home");
       } catch (err) {
         setError("Failed to create an account");
         console.log(err.message);
       }
     }
   };
+
+  useEffect(() => {
+    console.log(error);
+  }, [error]);
+
+  useEffect (() => {
+    if (user) {
+      const logoutFunc = async () => await logout();
+      logoutFunc();
+    }
+  }, []);
 
   return (
     <div className={styles.signupBase}>

@@ -1,30 +1,46 @@
 // import logo from './logo.svg';
 import "./App.css";
 import { useState } from "react";
-import Main from "./components/Main.js";
 import Login from "./components/Login.jsx";
 import SignUp from "./components/Signup.jsx";
-import Home from "./components/Home.js";
+import Home, { } from "./components/Home.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.js";
+import Error from "./components/Error";
 import {
-  BrowserRouter,
   Routes,
   Route,
-  Link,
+  Navigate,
   createBrowserRouter,
-  createRoutesFromElements,
   RouterProvider,
 } from "react-router-dom";
 import { AuthContextProvider } from "./context/AuthContext";
+import { StoreContextProvider } from "./context/StoreContext";
+
+export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Navigate to="/Login" />,
+  },
+  { path: "/Login", element: <Login /> },
+  { path: "/SignUp", element: <SignUp /> },
+  {
+    path: "/Home",
+    element: (
+      <ProtectedRoute>
+        <Home />
+      </ProtectedRoute>
+    ),
+  },
+  { path: "*", element: <Error /> },
+]);
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <AuthContextProvider>
-        <Routes>
-          <Route path="/" element={<Login />}></Route>
-          <Route path="/SignUp" element={<SignUp />}></Route>
-          <Route path="/Home" element={<Home />}></Route>
-        </Routes>
+        <StoreContextProvider>
+          <RouterProvider router={router} />
+        </StoreContextProvider>
       </AuthContextProvider>
     </div>
   );
