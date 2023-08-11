@@ -9,7 +9,7 @@ export default function Error() {
       </div>
       <div className="flex-[0.5] flex justify-center content-center">
         <div>
-          <Link className="bg-highlightColor min-w-fit hover:bg-highlightColorShade text-white font-bold py-2 px-4 rounded" to="/">Back to Home</Link>
+          <Link className="bg-highlightColor min-w-fit hover:bg-highlightColorShade text-white font-bold py-2 px-4 rounded" to="/Home">Back to Home</Link>
         </div>
       </div>
     </div>

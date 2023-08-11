@@ -1,0 +1,7 @@
+.dayStat-Container {
+  @apply border rounded-xl bg-primaryColor min-w-max h-fit p-3 px-7;
+  /* position: absolute;
+  top: 50%;
+  left: 0%;
+  z-index: -1; */
+}

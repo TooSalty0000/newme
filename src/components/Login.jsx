@@ -28,7 +28,7 @@ export default function Login() {
   return (
     <div className={styles.loginbase}>
       <div className={styles.loginDiv + " flex flex-col"}>
-        <h1 className="flex-none text-3xl font-bold">Login</h1>
+        <h1 className="flex-none text-3xl font-bold text-center" >Login</h1>
         <form
           className="flex-1 flex flex-col justify-evenly content-center"
           onSubmit={handleSubmit}
@@ -64,7 +64,7 @@ export default function Login() {
             Login
           </button>
         </form>
-        <div className="flex-[0.2]">
+        <div className="flex-[0.2] text-center">
           <p> Do not have an account?</p>
           <Link to="/Signup">Sign up</Link>
         </div>

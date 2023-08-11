@@ -1,14 +1,11 @@
 // import logo from './logo.svg';
 import "./App.css";
-import { useState } from "react";
 import Login from "./components/Login.jsx";
 import SignUp from "./components/Signup.jsx";
 import Home, { } from "./components/Home.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.js";
-import Error from "./components/Error";
+import Error from "./components/Error.jsx";
 import {
-  Routes,
-  Route,
   Navigate,
   createBrowserRouter,
   RouterProvider,

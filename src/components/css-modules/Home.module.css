@@ -1,0 +1,22 @@
+.section {
+  @apply p-[2rem] min-w-max;
+  height: calc(100vh - 52px);
+}
+
+.section.right {
+    @apply flex-[0.5];
+}
+
+.section.left {
+    @apply flex-[2];
+    overflow-y: auto;
+}
+
+.nav {
+  height: 100%;
+  width: 100%;
+  min-width: 20rem;
+  border-radius: 20px;
+  background-color: var(--primary-color);
+  padding: 20px;
+}

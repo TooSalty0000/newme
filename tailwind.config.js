@@ -7,8 +7,10 @@ module.exports = {
         "baseColor": "var(--base-color)",
         "primaryColor": "var(--primary-color)",
         "secondaryColor": "var(--secondary-color)",
+        "tertiaryColor": "var(--tertiary-color)",
         "highlightColor": "var(--highlight-color)",
         "highlightColorShade": "var(--highlight-shade-color)",
+        "highlightColorLight": "var(--highlight-light-color)",
       }
     },
   },
