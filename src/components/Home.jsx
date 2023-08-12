@@ -1,7 +1,6 @@
 // utilities
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useLoaderData } from "react-router-dom";
-import { auth } from "../firebase.js";
+import { useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext.js";
 import { Firestore } from "../context/StoreContext.js";
 import loader from "../assets/loader.svg";
@@ -13,7 +12,7 @@ import Daystats from "./Daystats.jsx";
 import Badges from "./Badges.jsx";
 
 export default function Home() {
-  const { user, logout } = UserAuth();
+  const { user } = UserAuth();
   const navigate = useNavigate();
   const { getUserData, getUserHabits } = Firestore();
   const [userData, setUserData] = useState({});
@@ -24,15 +23,6 @@ export default function Home() {
     parseInt(new Date().getMonth()) + 1
   );
   const [currentMonthHabits, setCurrentMonthHabits] = useState([]);
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate("/");
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
   useEffect(() => {
     const getUser = async () => {
@@ -72,7 +62,7 @@ export default function Home() {
       let startTime = new Date(habit.startTime.seconds * 1000);
       let endTime = new Date(habit.endTime.seconds * 1000);
       console.log(startTime, endTime);
-      if (startTime <= dateFocused[2] && endTime >= dateFocused[1]) {
+      if (startTime <= minMaxDate[1] && endTime >= minMaxDate[0]) {
         dataFromMonth.push(habit);
       }
     });
@@ -99,43 +89,28 @@ export default function Home() {
   }
 
   return (
-    <>
-      <div className="flex justify-start p-3">
-        <h1 className="text-lg">New Me</h1>
-        <div className="mx-3 text-lg font-bold">
-          <h1>{user && userData.username}</h1>
+    <div className="flex justify-center items-center">
+      {/* left */}
+      <div className={styles.section + " " + styles.left}>
+        {/* Top */}
+        <div className="flex flex-[3] justify-center min-w-full p-6 transition-all">
+          <Calender
+            setDateFocused={setDateFocused}
+            setMinMaxDate={setMinMaxDate}
+          />
+          <Daystats />
         </div>
-        <button
-          className="ml-auto justify-self-end text-lg font-bold"
-          onClick={handleLogout}
-        >
-          Sign Out
-        </button>
-      </div>
-
-      <div className="flex justify-center items-center">
-        {/* left */}
-        <div className={styles.section + " " + styles.left}>
-          {/* Top */}
-          <div className="flex flex-[3] justify-center min-w-full p-6 transition-all">
-            <Calender
-              setDateFocused={setDateFocused}
-              setMinMaxDate={setMinMaxDate}
-            />
-            <Daystats />
-          </div>
-          {/* Bottom */}
-          <div className="flex-[1] w-full">
-            <Badges />
-          </div>
-        </div>
-        {/* right */}
-        <div className={styles.section + " " + styles.right}>
-          <div className={styles.nav}>
-            <h1 className="text-3xl font-bold">My Goals</h1>
-          </div>
+        {/* Bottom */}
+        <div className="flex-[1] w-full">
+          <Badges />
         </div>
       </div>
-    </>
+      {/* right */}
+      <div className={styles.section + " " + styles.right}>
+        <div className={styles.nav}>
+          <h1 className="text-3xl font-bold">My Goals</h1>
+        </div>
+      </div>
+    </div>
   );
 }

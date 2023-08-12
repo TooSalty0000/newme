@@ -62,10 +62,18 @@
 .calendar tbody td:hover {
     background: #cacaca;
     color: #fff;
+    border-radius: 20px;
 }
 
-.current-day {
+.calendar td.current-day:hover{
+    background: var(--highlight-color);
+    color: #fff;
+}
+
+.calendar td.current-day {
+    background: var(--highlight-light-color);
     color: #e66b6b;
+    border-radius: 20px;
 }
 
 .prev-month,

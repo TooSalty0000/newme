@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styles from "./css-modules/Calender.module.css";
 
-export default function Calander( {setDateFocused, setMinMaxDate}) {
+export default function Calander({ setDateFocused, setMinMaxDate }) {
   const [month, setMonth] = useState(8);
   const [monthName, setMonthName] = useState("September");
   const [year, setYear] = useState(2023);
   const [dates, setDates] = useState([]);
+  const [prevDateElement, setPrevDateElement] = useState();
 
   useEffect(() => {
     let now = new Date();
@@ -44,6 +45,17 @@ export default function Calander( {setDateFocused, setMinMaxDate}) {
     setDateFocused(Date());
     setMinMaxDate(dates[0], dates[41]);
   }, []);
+
+  const handleClick = (e) => {
+    if (prevDateElement) {
+      prevDateElement.classList.remove(styles["current-day"]);
+    }
+    setPrevDateElement(e.target);
+    console.log(e.target);
+    console.log(e.target.dataset.date);
+    setDateFocused(e.target.dataset.date);
+    e.target.classList.add(styles["current-day"]);
+  };
 
   useEffect(() => {
     // get dates of the month from sunday to saturday, and the dates of the previous and next month
@@ -89,7 +101,8 @@ export default function Calander( {setDateFocused, setMinMaxDate}) {
                           ? date.getDate()
                           : `prev${date.getDate()}`
                       }
-                      onClick={setDateFocused(date)}
+                      onClick={handleClick}
+                      data-date={date}
                     >
                       {date.getDate()}
                     </td>
@@ -98,33 +111,11 @@ export default function Calander( {setDateFocused, setMinMaxDate}) {
               </tr>
               <tr>
                 {dates[1]?.map((date) => {
-                  return <td key={date.getDate()} onClick={setDateFocused(date)}>{date.getDate()}</td>;
-                })}
-              </tr>
-              <tr>
-                {dates[2]?.map((date) => {
-                  return <td key={date.getDate()} onClick={setDateFocused(date)}>{date.getDate()}</td>;
-                })}
-              </tr>
-              <tr>
-                {dates[3]?.map((date) => {
-                  return <td key={date.getDate()} onClick={setDateFocused(date)}>{date.getDate()}</td>;
-                })}
-              </tr>
-              <tr>
-              {dates[4]?.map((date) => {
                   return (
                     <td
-                      className={
-                        date.getMonth() == month
-                          ? ""
-                          : `${styles["next-month"]}`
-                      }
-                      key={
-                        date.getMonth() == month
-                          ? date.getDate()
-                          : `next${date.getDate()}`
-                      } onClick={setDateFocused(date)}
+                      key={date.getDate()}
+                      onClick={handleClick}
+                      data-date={date}
                     >
                       {date.getDate()}
                     </td>
@@ -132,7 +123,33 @@ export default function Calander( {setDateFocused, setMinMaxDate}) {
                 })}
               </tr>
               <tr>
-              {dates[5]?.map((date) => {
+                {dates[2]?.map((date) => {
+                  return (
+                    <td
+                      key={date.getDate()}
+                      onClick={handleClick}
+                      data-date={date}
+                    >
+                      {date.getDate()}
+                    </td>
+                  );
+                })}
+              </tr>
+              <tr>
+                {dates[3]?.map((date) => {
+                  return (
+                    <td
+                      key={date.getDate()}
+                      onClick={handleClick}
+                      data-date={date}
+                    >
+                      {date.getDate()}
+                    </td>
+                  );
+                })}
+              </tr>
+              <tr>
+                {dates[4]?.map((date) => {
                   return (
                     <td
                       className={
@@ -144,7 +161,31 @@ export default function Calander( {setDateFocused, setMinMaxDate}) {
                         date.getMonth() == month
                           ? date.getDate()
                           : `next${date.getDate()}`
-                      } onClick={setDateFocused(date)}
+                      }
+                      onClick={handleClick}
+                      data-date={date}
+                    >
+                      {date.getDate()}
+                    </td>
+                  );
+                })}
+              </tr>
+              <tr>
+                {dates[5]?.map((date) => {
+                  return (
+                    <td
+                      className={
+                        date.getMonth() == month
+                          ? ""
+                          : `${styles["next-month"]}`
+                      }
+                      key={
+                        date.getMonth() == month
+                          ? date.getDate()
+                          : `next${date.getDate()}`
+                      }
+                      onClick={handleClick}
+                      data-date={date}
                     >
                       {date.getDate()}
                     </td>

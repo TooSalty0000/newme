@@ -38,6 +38,18 @@ export const StoreContextProvider = ({ children }) => {
     return docSnap.docs.map(doc => doc.data());
   };
 
+  const addUserHabit = async (uid, habit) => {
+    if (uid == "") return null;
+    const colRef = collection(db, `userData/${uid}/Habits`);
+    await setDoc(doc(colRef, habit.id), {
+      HabitName: habit.HabitName,
+      HabitDescription: habit.HabitDescription,
+      HabitFrequency: habit.HabitFrequency,
+      HabitStartDate: habit.HabitStartDate,
+      HabitEndDate: habit.HabitEndDate,
+      HabitSuccesses: habit.HabitSuccesses,
+    });
+  };
   // useEffect(() => {
   //     // if (user) {
   //     //     getUserData(user.uid).then((data) => {
