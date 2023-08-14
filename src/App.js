@@ -5,6 +5,9 @@ import SignUp from "./components/Signup.jsx";
 import Home from "./components/Home.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.js";
 import Error from "./components/Error.jsx";
+import RootLayout from "./components/RootLayout";
+import NewGoal from "./components/NewGoal.jsx";
+
 import {
   Navigate,
   createBrowserRouter,
@@ -14,7 +17,6 @@ import {
 } from "react-router-dom";
 import { AuthContextProvider } from "./context/AuthContext";
 import { StoreContextProvider } from "./context/StoreContext";
-import RootLayout from "./components/RootLayout";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -31,6 +33,7 @@ export const router = createBrowserRouter(
         }
       >
         <Route index element={<Home />} />
+        <Route path="/Home/new-goal" element={<NewGoal />} />
       </Route>
       <Route path="*" element={<Error />} />
     </Route>

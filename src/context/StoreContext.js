@@ -1,7 +1,17 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { UserAuth } from "./AuthContext";
 import { db } from "../firebase.js";
-import { getDoc, setDoc, doc, query, getDocs, collection} from "firebase/firestore";
+import {
+  getDoc,
+  setDoc,
+  doc,
+  query,
+  getDocs,
+  collection,
+  addDoc,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
 
 const StoreContext = createContext();
 
@@ -35,19 +45,16 @@ export const StoreContextProvider = ({ children }) => {
     if (uid == "") return null;
     const colRef = collection(db, `userData/${uid}/Habits`);
     const docSnap = await getDocs(colRef);
-    return docSnap.docs.map(doc => doc.data());
+    return docSnap.docs.map((doc) => doc.data());
   };
 
   const addUserHabit = async (uid, habit) => {
     if (uid == "") return null;
     const colRef = collection(db, `userData/${uid}/Habits`);
-    await setDoc(doc(colRef, habit.id), {
-      HabitName: habit.HabitName,
-      HabitDescription: habit.HabitDescription,
-      HabitFrequency: habit.HabitFrequency,
-      HabitStartDate: habit.HabitStartDate,
-      HabitEndDate: habit.HabitEndDate,
-      HabitSuccesses: habit.HabitSuccesses,
+    let res = await addDoc(colRef, habit);
+    const docRef = doc(db, "userData", uid);
+    const docSnap = await updateDoc(docRef, {
+      habitIds: arrayUnion(res.id),
     });
   };
   // useEffect(() => {
@@ -60,7 +67,13 @@ export const StoreContextProvider = ({ children }) => {
 
   return (
     <StoreContext.Provider
-      value={{ createUserField, getUserData, userData, getUserHabits }}
+      value={{
+        createUserField,
+        getUserData,
+        userData,
+        getUserHabits,
+        addUserHabit,
+      }}
     >
       {children}
     </StoreContext.Provider>

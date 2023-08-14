@@ -10,10 +10,12 @@ import styles from "./css-modules/Home.module.css";
 import Calender from "./Calender.jsx";
 import Daystats from "./Daystats.jsx";
 import Badges from "./Badges.jsx";
+import GoalList from "./GoalList.jsx";
 
 export default function Home() {
   const { user } = UserAuth();
   const navigate = useNavigate();
+  const [loaded, setLoaded] = useState(false);
   const { getUserData, getUserHabits } = Firestore();
   const [userData, setUserData] = useState({});
   const [userHabitData, setUserHabitData] = useState([]);
@@ -38,6 +40,7 @@ export default function Home() {
     };
 
     const getUserHabitData = async () => {
+      setLoaded(false);
       if (user.uid !== undefined) {
         getUserHabits(user.uid, monthFocused).then((res) => {
           console.log(res);
@@ -45,6 +48,7 @@ export default function Home() {
           handleMonthChange(res);
         });
       }
+      setLoaded(true);
     };
 
     if (getUser()) {
@@ -59,8 +63,8 @@ export default function Home() {
     console.log(userHabitData);
     let dataFromMonth = [];
     userHabitData.forEach((habit) => {
-      let startTime = new Date(habit.startTime.seconds * 1000);
-      let endTime = new Date(habit.endTime.seconds * 1000);
+      let startTime = new Date(habit.HabitStartDate.seconds * 1000);
+      let endTime = new Date(habit.HabitEndDate.seconds * 1000);
       console.log(startTime, endTime);
       if (startTime <= minMaxDate[1] && endTime >= minMaxDate[0]) {
         dataFromMonth.push(habit);
@@ -80,28 +84,35 @@ export default function Home() {
     setMonthFocused(parseInt(d.getMonth()) + 1);
   }, [dateFocused]);
 
-  if (!userData?.loaded) {
-    return (
-      <div className="flex flex-col justify-center items-center h-screen">
-        <img src={loader} alt="loader" className="w-20 h-20" />
-      </div>
-    );
-  }
+  // if (!loaded) {
+  //   return (
+  //     <div className="flex flex-col justify-center items-center h-screen">
+  //       <img src={loader} alt="loader" className="w-20 h-20" />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="flex justify-center items-center">
       {/* left */}
       <div className={styles.section + " " + styles.left}>
         {/* Top */}
-        <div className="flex flex-[3] justify-center min-w-full p-6 transition-all">
-          <Calender
-            setDateFocused={setDateFocused}
-            setMinMaxDate={setMinMaxDate}
-          />
-          <Daystats />
-        </div>
+        {!loaded ? (
+          <div className="flex h-[60vh] justify-center items-center">
+            <img src={loader} alt="loader" className="w-20 h-20" />
+          </div>
+        ) : (
+          <div className="flex justify-center min-w-full p-6 transition-all">
+            <Calender
+              setDateFocused={setDateFocused}
+              setMinMaxDate={setMinMaxDate}
+            />
+            <Daystats />
+          </div>
+        )}
+
         {/* Bottom */}
-        <div className="flex-[1] w-full">
+        <div className="w-full">
           <Badges />
         </div>
       </div>
@@ -109,6 +120,7 @@ export default function Home() {
       <div className={styles.section + " " + styles.right}>
         <div className={styles.nav}>
           <h1 className="text-3xl font-bold">My Goals</h1>
+          <GoalList userHabitData={userHabitData} />
         </div>
       </div>
     </div>
