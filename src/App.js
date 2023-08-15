@@ -17,6 +17,7 @@ import {
 } from "react-router-dom";
 import { AuthContextProvider } from "./context/AuthContext";
 import { StoreContextProvider } from "./context/StoreContext";
+import { useEffect } from "react";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(

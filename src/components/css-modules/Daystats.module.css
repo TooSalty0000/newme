@@ -1,5 +1,5 @@
 .dayStat-Container {
-  @apply border rounded-xl bg-primaryColor min-w-max h-fit p-3 px-7;
+  @apply border rounded-xl bg-primaryColor mx-auto min-w-[20rem] h-fit p-3 px-3 w-[100%] pb-6 xl:mr-0 lg:w-[80%] xl:w-[48%];
   /* position: absolute;
   top: 50%;
   left: 0%;

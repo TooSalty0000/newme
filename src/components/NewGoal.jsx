@@ -23,10 +23,14 @@ export default function NewGoal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("submit");
+    let startDate = new Date(goalStartDate);
+    startDate.setHours(0, 0, 0, 0);
+    let endDate = new Date(goalEndDate);
+    endDate.setHours(0, 0, 0, 0);
     let goal = {
       HabitName: goalName,
-      HabitStartDate: Timestamp.fromDate(new Date(goalStartDate)),
-      HabitEndDate: Timestamp.fromDate(new Date(goalEndDate)),
+      HabitStartDate: Timestamp.fromDate(startDate),
+      HabitEndDate: Timestamp.fromDate(endDate),
       HabitCheckFrequency: goalCheckFrequency,
       HabitCheckFrequencyValue: goalCheckFrequencyValue,
     };

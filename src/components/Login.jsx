@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import styles from "./css-modules/Login.module.css";
 import { UserAuth } from "../context/AuthContext";
@@ -14,7 +14,6 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(login);
     try {
       console.log("logging in user");
       await login(email, password).then((res) => {
@@ -28,7 +27,7 @@ export default function Login() {
   return (
     <div className={styles.loginbase}>
       <div className={styles.loginDiv + " flex flex-col"}>
-        <h1 className="flex-none text-3xl font-bold text-center" >Login</h1>
+        <h1 className="flex-none text-3xl font-bold text-center">Login</h1>
         <form
           className="flex-1 flex flex-col justify-evenly content-center"
           onSubmit={handleSubmit}

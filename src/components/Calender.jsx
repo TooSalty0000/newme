@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import styles from "./css-modules/Calender.module.css";
 
-export default function Calander({ setDateFocused, setMinMaxDate }) {
+export default function Calander({
+  dateFocused,
+  setDateFocused,
+  setMinMaxDate,
+}) {
   const [month, setMonth] = useState(8);
   const [monthName, setMonthName] = useState("September");
   const [year, setYear] = useState(2023);
   const [dates, setDates] = useState([]);
-  const [prevDateElement, setPrevDateElement] = useState();
+  const [_dateFocused, set_DateFocused] = useState(Date());
 
   useEffect(() => {
     let now = new Date();
@@ -42,19 +46,17 @@ export default function Calander({ setDateFocused, setMinMaxDate }) {
       datesArray.push(week);
     }
     setDates(datesArray);
-    setDateFocused(Date());
-    setMinMaxDate(dates[0], dates[41]);
+
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
+    setDateFocused(today);
+    set_DateFocused(today);
+    setMinMaxDate([dates[0], dates[41]]);
   }, []);
 
   const handleClick = (e) => {
-    if (prevDateElement) {
-      prevDateElement.classList.remove(styles["current-day"]);
-    }
-    setPrevDateElement(e.target);
-    console.log(e.target);
-    console.log(e.target.dataset.date);
-    setDateFocused(e.target.dataset.date);
-    e.target.classList.add(styles["current-day"]);
+    setDateFocused(new Date(e.target.dataset.date));
+    set_DateFocused(new Date(e.target.dataset.date));
   };
 
   useEffect(() => {
@@ -92,9 +94,12 @@ export default function Calander({ setDateFocused, setMinMaxDate }) {
                   return (
                     <td
                       className={
-                        date.getMonth() == month
+                        (date.getMonth() == month
                           ? ""
-                          : `${styles["prev-month"]}`
+                          : `${styles["prev-month"]} `) +
+                        (_dateFocused.getTime() == date.getTime()
+                          ? `${styles["current-day"]}`
+                          : "")
                       }
                       key={
                         date.getMonth() == month
@@ -113,6 +118,11 @@ export default function Calander({ setDateFocused, setMinMaxDate }) {
                 {dates[1]?.map((date) => {
                   return (
                     <td
+                      className={
+                        _dateFocused.getTime() == date.getTime()
+                          ? `${styles["current-day"]}`
+                          : ""
+                      }
                       key={date.getDate()}
                       onClick={handleClick}
                       data-date={date}
@@ -126,6 +136,11 @@ export default function Calander({ setDateFocused, setMinMaxDate }) {
                 {dates[2]?.map((date) => {
                   return (
                     <td
+                      className={
+                        _dateFocused.getTime() == date.getTime()
+                          ? `${styles["current-day"]}`
+                          : ""
+                      }
                       key={date.getDate()}
                       onClick={handleClick}
                       data-date={date}
@@ -139,6 +154,11 @@ export default function Calander({ setDateFocused, setMinMaxDate }) {
                 {dates[3]?.map((date) => {
                   return (
                     <td
+                      className={
+                        _dateFocused.getTime() == date.getTime()
+                          ? `${styles["current-day"]}`
+                          : ""
+                      }
                       key={date.getDate()}
                       onClick={handleClick}
                       data-date={date}
@@ -153,9 +173,12 @@ export default function Calander({ setDateFocused, setMinMaxDate }) {
                   return (
                     <td
                       className={
-                        date.getMonth() == month
+                        (date.getMonth() == month
                           ? ""
-                          : `${styles["next-month"]}`
+                          : `${styles["next-month"]} `) +
+                        (_dateFocused.getTime() == date.getTime()
+                          ? `${styles["current-day"]}`
+                          : "")
                       }
                       key={
                         date.getMonth() == month
@@ -175,9 +198,12 @@ export default function Calander({ setDateFocused, setMinMaxDate }) {
                   return (
                     <td
                       className={
-                        date.getMonth() == month
+                        (date.getMonth() == month
                           ? ""
-                          : `${styles["next-month"]}`
+                          : `${styles["next-month"]} `) +
+                        (_dateFocused.getTime() == date.getTime()
+                          ? `${styles["current-day"]}`
+                          : "")
                       }
                       key={
                         date.getMonth() == month

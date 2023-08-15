@@ -11,6 +11,7 @@ import {
   addDoc,
   updateDoc,
   arrayUnion,
+  Timestamp,
 } from "firebase/firestore";
 
 const StoreContext = createContext();
@@ -23,6 +24,7 @@ export const StoreContextProvider = ({ children }) => {
   const createUserField = async (_user, username) => {
     await setDoc(doc(db, "userData", _user.uid), {
       username: username,
+      lastUpdate: Timestamp.fromDate(new Date()),
     });
     await setDoc(doc(db, `userData/${_user.uid}/Habits`, _user.uid));
   };
@@ -55,6 +57,7 @@ export const StoreContextProvider = ({ children }) => {
     const docRef = doc(db, "userData", uid);
     const docSnap = await updateDoc(docRef, {
       habitIds: arrayUnion(res.id),
+      lastUpdate: Timestamp.fromDate(new Date()),
     });
   };
   // useEffect(() => {
